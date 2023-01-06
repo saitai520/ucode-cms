@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ucode-cms</artifactId>
+        <groupId>xin.altitude.cms</groupId>
+        <version>1.6.2.2</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <name>${project.artifactId}</name>
+    <url>http://www.altitude.xin</url>
+
+    <artifactId>ucode-cms-spring-boot-starter</artifactId>
+
+    <description>
+        Java知识图谱之内容管理系统（CMS）ucode-cms-spring-boot-starter
+    </description>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>xin.altitude.cms</groupId>
+            <artifactId>ucode-cms-framework</artifactId>
+            <version>1.6.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.altitude.cms</groupId>
+            <artifactId>ucode-cms-common</artifactId>
+            <version>1.6.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.altitude.cms</groupId>
+            <artifactId>ucode-cms-system</artifactId>
+            <version>1.6.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.altitude.cms</groupId>
+            <artifactId>ucode-cms-ui</artifactId>
+            <version>1.6.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.altitude.cms</groupId>
+            <artifactId>ucode-cms-monitor</artifactId>
+            <version>1.6.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.altitude.cms</groupId>
+            <artifactId>ucode-cms-excel</artifactId>
+            <version>1.6.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xin.altitude.cms</groupId>
+            <artifactId>ucode-cms-security</artifactId>
+            <version>1.6.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xin.altitude.cms</groupId>
+            <artifactId>ucode-cms-swagger</artifactId>
+            <version>1.6.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <!--<optional>true</optional>-->
+        </dependency>
+
+        <!--外部项目运行核心依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

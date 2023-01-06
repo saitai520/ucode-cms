@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.3</version>
+        <relativePath/>
+    </parent>
+    <groupId>xin.altitude.cms</groupId>
+    <artifactId>ucode-cms</artifactId>
+    <version>1.6.2.2</version>
+
+    <description>Java知识图谱之内容管理系统（pom）【新版】</description>
+    <url>http://www.altitude.xin</url>
+
+    <name>${project.artifactId}</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <druid.version>1.2.8</druid.version>
+        <bitwalker.version>1.21</bitwalker.version>
+        <swagger.version>3.0.0</swagger.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <mybatis-plus.version>3.5.0</mybatis-plus.version>
+        <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
+        <fastjson.version>2.0.19</fastjson.version>
+        <oshi.version>5.8.2</oshi.version>
+        <jna.version>5.9.0</jna.version>
+        <commons.io.version>2.11.0</commons.io.version>
+        <commons.fileupload.version>1.4</commons.fileupload.version>
+        <commons.collections.version>3.2.2</commons.collections.version>
+        <commons.collections4.version>4.4</commons.collections4.version>
+        <poi.version>4.1.2</poi.version>
+        <velocity.version>1.7</velocity.version>
+        <jwt.version>0.9.1</jwt.version>
+        <lombok.version>1.18.22</lombok.version>
+        <guava.version>31.0.1-jre</guava.version>
+        <hutool.version>5.7.9</hutool.version>
+        <knife4j.version>3.0.3</knife4j.version>
+        <redisson.version>3.16.8</redisson.version>
+        <c3p0.version>0.9.5.5</c3p0.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
+    </properties>
+
+    <modules>
+        <module>ucode-cms-system</module>
+        <module>ucode-cms-framework</module>
+        <module>ucode-cms-common</module>
+        <module>ucode-cms-spring-boot-starter</module>
+        <module>ucode-cms-ui</module>
+        <module>ucode-cms-code</module>
+        <module>ucode-cms-code-spring-boot-starter</module>
+        <module>ucode-cms-monitor</module>
+        <module>ucode-cms-excel</module>
+        <module>ucode-cms-job</module>
+        <module>ucode-cms-limiter</module>
+        <module>ucode-cms-repeat</module>
+        <module>ucode-cms-log</module>
+        <module>ucode-cms-db-datasource</module>
+        <module>ucode-cms-security</module>
+        <module>ucode-cms-take-time</module>
+        <module>ucode-cms-bitmap</module>
+        <module>ucode-cms-quartz</module>
+        <module>ucode-cms-swagger</module>
+        <module>ucode-cms-core</module>
+        <module>ucode-cms-word</module>
+        <module>ucode-cms-filter-field</module>
+        <module>ucode-cms-request-merge</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 阿里数据库连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- 解析客户端操作系统、浏览器等 -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${bitwalker.version}</version>
+            </dependency>
+
+            <!-- pagehelper 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.boot.version}</version>
+            </dependency>
+
+            <!-- 获取系统信息 -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna-platform</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+
+            <!-- Swagger3依赖 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <!-- io常用工具类 -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+
+            <!-- 文件上传工具类 -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons.fileupload.version}</version>
+            </dependency>
+
+            <!-- excel工具 -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+
+            <!-- collections工具类 -->
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons.collections.version}</version>
+            </dependency>
+
+            <!-- 阿里JSON解析器 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- Token生成与解析-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+            <!-- 验证码 -->
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+
+            <!-- 系统模块-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-system</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--定时任务-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-job</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--前端界面-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--监控模块-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-monitor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 核心模块-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--代码生成器-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-code</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--Excel处理-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-excel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--日志处理-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-log</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--防重复提交-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-repeat</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--API限流-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-limiter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--多数据源-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-db-datasource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--权限-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--统计API耗时-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-take-time</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--BitMap-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-bitmap</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--定时任务-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-quartz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--Swagger-->
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-swagger</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-word</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-filter-field</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>xin.altitude.cms</groupId>
+                <artifactId>ucode-cms-request-merge</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-ui</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons.collections4.version}</version>
+            </dependency>
+            <!--redisson-->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.mchange</groupId>
+                <artifactId>c3p0</artifactId>
+                <version>${c3p0.version}</version>
+            </dependency>
+            <!--mapstruct-->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <!--mapstruct-processor-->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>ucode</name>
+            <email>ireliaashe@163.com</email>
+            <organization>ucode</organization>
+            <organizationUrl>http://www.altitude.xin</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://gitee.com/decsa/ucode-cms-vue.git</connection>
+        <developerConnection>scm:git:https://gitee.com/decsa/ucode-cms-vue.git</developerConnection>
+        <url>https://gitee.com/decsa/ucode-cms-vue</url>
+    </scm>
+
+    <!--关键地址-->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--非部署必须-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+</project>

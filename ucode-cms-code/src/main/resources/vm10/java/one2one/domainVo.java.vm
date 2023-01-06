@@ -1,0 +1,53 @@
+package ${packageName}.entity.vo;
+
+#foreach ($item in $importList)
+${item}
+#end
+#if( "$!tableComment" != "" )
+/** ${tableComment} */
+#end
+@Data
+#if( "$!column.columnComment" != "" )
+@ApiModel(description = "${column.columnComment}")
+#end
+public class ${ClassName}Vo extends ${ClassName}
+{
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+#if(!$tables.isSuperColumn($column.javaField))
+    #if($configEntity.domain.addNoteInfo && "$!column.columnComment" != "" )
+    /** ${column.columnComment} */
+    #end
+#if($configEntity.useSwagger&&"$!column.columnComment" != "")
+    @ApiModelProperty(value = "${column.columnComment}", position = ${column.ordinalPosition})
+#end
+#if($column.fieldType=="LocalDate")
+    #if($configEntity.domain.dateFormat)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    #end
+    #if($configEntity.domain.dateSerialize)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    #end
+#elseif($column.fieldType=="LocalDateTime")
+    #if($configEntity.domain.dateFormat)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    #end
+    #if($configEntity.domain.dateSerialize)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    #end
+#end
+    private $column.fieldType $column.fieldName;
+#end
+
+#end
+    public ${ClassName}Vo() {
+    }
+#if($configEntity.domain.addConstructionMethod)
+    public ${ClassName}Vo(${ClassName} ${className}) {
+        super(${className});
+    }
+#end
+}

@@ -1,0 +1,35 @@
+# 项目相关配置
+#ucode:
+#  code:
+#    removeTablePrefix: false
+#    packageName: xin.ucode.front
+#    moduleName: front
+#    useLombok: true
+#    useMybatisPlus: true
+#    useSwagger: true
+#    functionAuthor: explore
+#    joinQuery: false
+#    domain:
+#      overrideToString: false
+#      addConstructionMethod: true
+#      useActiveRecord: false
+#      addImportList: true
+#      addNoteInfo: true
+#      pkInc: true
+#      dateSerialize: false
+#      dateFormat: true
+#    xml:
+#      add-xml: false
+
+
+# 日志配置
+logging:
+  level:
+    org.apache.velocity: error
+    xin.altitude: warn
+    org.springframework: warn
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER

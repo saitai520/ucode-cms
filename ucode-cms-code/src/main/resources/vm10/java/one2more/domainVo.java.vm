@@ -1,0 +1,26 @@
+package ${packageName}.entity.vo;
+
+#foreach ($item in $importList)
+${item}
+#end
+#if( "$!tableComment" != "" )
+/** ${tableComment} */
+#end
+@Data
+#if( "$!column.columnComment" != "" )
+@ApiModel(description = "${column.columnComment}")
+#end
+public class ${rightClassName}Vo extends ${rightClassName}
+{
+    private static final long serialVersionUID = 1L;
+    private List<${leftClassName}> ${leftInstanceName}List;
+
+
+    public ${rightClassName}Vo() {
+    }
+#if($configEntity.domain.addConstructionMethod)
+    public ${rightClassName}Vo(${rightClassName} ${rightInstanceName}) {
+        super(${rightInstanceName});
+    }
+#end
+}

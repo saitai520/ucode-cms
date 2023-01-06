@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.druid.slave.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用从数据库."
+    }
+  ]
+}

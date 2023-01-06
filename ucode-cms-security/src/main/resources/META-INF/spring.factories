@@ -1,0 +1,8 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    xin.altitude.cms.security.filter.JwtAuthenticationTokenFilter,\
+    xin.altitude.cms.security.handle.AuthenticationEntryPointImpl,\
+    xin.altitude.cms.security.handle.LogoutSuccessHandlerImpl,\
+    xin.altitude.cms.security.service.CmsTokenService,\
+    xin.altitude.cms.auth.web.service.UserDetailsServiceImpl,\
+    xin.altitude.cms.security.config.DefaultSecurityConfig

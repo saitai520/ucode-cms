@@ -1,0 +1,17 @@
+package ${packageName}.entity.vo.${MidClassName};
+
+#foreach ($item in $importList)
+${item}
+#end
+#if( "$!tableComment" != "" )
+/** ${tableComment} */
+#end
+@Data
+@AllArgsConstructor
+public class ${leftClassName}Vo extends ${leftClassName} {
+    private List<${rightClassName}Bo> ${t.sc($rightClassName)}BoList;
+
+    public ${leftClassName}Vo(${leftClassName} ${t.sc($leftClassName)}) {
+        super(${t.sc($leftClassName)});
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "properties": [
+        {
+            "name": "ucode.code.packageName",
+            "type": "java.lang.String",
+            "description": "代码生成包前缀名."
+        },
+        {
+            "name": "ucode.code.moduleName",
+            "type": "java.lang.String",
+            "description": "代码生成模块名称."
+        },
+        {
+            "name": "ucode.code.joinQuery",
+            "type": "java.lang.Boolean",
+            "description": "是否开启连接查询."
+        },
+        {
+            "name": "ucode.code.projectDir",
+            "type": "java.lang.String",
+            "description": "代码生成相对路径."
+        },
+        {
+            "name": "ucode.code.removeTablePrefix",
+            "type": "java.lang.Boolean",
+            "description": "是否移除表前缀."
+        }
+    ]
+}

@@ -1,0 +1,137 @@
+package ${packageName}.service;
+
+#foreach ($item in $importList)
+    ${item}
+#end
+
+public interface I${ClassName}Service
+    #if($configEntity.useMybatisPlus)
+            extends IService<${ClassName}>
+    #end
+{
+#if($joinQuery && $LKeyColumn && $RKeyColumn)
+    I${LKeyColumn.referencedClassName}Service ${t.sc($LKeyColumn.referencedClassName)}Service = SpringUtils.getBean(I${LKeyColumn.referencedClassName}Service.class);
+
+    I${RKeyColumn.referencedClassName}Service ${t.sc($RKeyColumn.referencedClassName)}Service = SpringUtils.getBean(I${RKeyColumn.referencedClassName}Service.class);
+
+    default ${LKeyColumn.referencedClassName}Vo get${LKeyColumn.referencedClassName}Vo(${LKeyColumn.fieldType} ${LKeyColumn.fieldName}) {
+        ${LKeyColumn.referencedClassName}Vo ${t.sc($LKeyColumn.referencedClassName)}Vo = EntityUtils.toObj(${t.sc($LKeyColumn.referencedClassName)}Service.getById(${LKeyColumn.fieldName}), ${LKeyColumn.referencedClassName}Vo::new);
+        List<${ClassName}> ${t.sc($ClassName)}s = list(Wrappers.lambdaQuery(${ClassName}.class).eq(${ClassName}::get${t.sc($LKeyColumn.fieldName)}, ${LKeyColumn.fieldName}));
+        Set<${RKeyColumn.fieldType}> ${t.sc($RKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($RKeyColumn.fieldName)});
+        if (${t.sc($LKeyColumn.referencedClassName)}Vo != null && ${t.sc($RKeyColumn.referencedClassName)}Ids.size() > 0) {
+            LambdaQueryWrapper<${RKeyColumn.referencedClassName}> queryWrapper = Wrappers.lambdaQuery(${RKeyColumn.referencedClassName}.class).in(${RKeyColumn.referencedClassName}::get${t.sc($RKeyColumn.referencedFieldName)}, ${t.sc($RKeyColumn.referencedClassName)}Ids);
+            List<${RKeyColumn.referencedClassName}Bo> subBoList = EntityUtils.toList(${t.sc($RKeyColumn.referencedClassName)}Service.list(queryWrapper), ${RKeyColumn.referencedClassName}Bo::new);
+            Table<${LKeyColumn.fieldType}, ${RKeyColumn.fieldType}, ${ClassName}> table = TableUtils.createHashTable(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($LKeyColumn.fieldName)}, ${ClassName}::get${t.sc($RKeyColumn.fieldName)});
+            subBoList.forEach(e -> BeanCopyUtils.copyProperties(table.get(${LKeyColumn.fieldName}, e.get${t.sc($RKeyColumn.referencedFieldName)}()), e));
+            ${t.sc($LKeyColumn.referencedClassName)}Vo.set${RKeyColumn.referencedClassName}BoList(subBoList);
+        }
+        return ${t.sc($LKeyColumn.referencedClassName)}Vo;
+    }
+
+    default List<${LKeyColumn.referencedClassName}Vo> listVo(${LKeyColumn.referencedClassName} ${t.sc($LKeyColumn.referencedClassName)}) {
+        List<${LKeyColumn.referencedClassName}Vo> ${t.sc($LKeyColumn.referencedClassName)}VoList = EntityUtils.toList(${t.sc($LKeyColumn.referencedClassName)}Service.list(Wrappers.lambdaQuery(${t.sc($LKeyColumn.referencedClassName)})), ${LKeyColumn.referencedClassName}Vo::new);
+        Set<${LKeyColumn.fieldType}> ${t.sc($LKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($LKeyColumn.referencedClassName)}VoList, ${LKeyColumn.referencedClassName}::get${t.sc($LKeyColumn.referencedFieldName)});
+        if (${t.sc($LKeyColumn.referencedClassName)}Ids.size() == 0) {
+            return ${t.sc($LKeyColumn.referencedClassName)}VoList;
+        }
+        List<${ClassName}> ${t.sc($ClassName)}s = list(Wrappers.lambdaQuery(${ClassName}.class).in(${ClassName}::get${t.sc($LKeyColumn.fieldName)}, ${t.sc($LKeyColumn.referencedClassName)}Ids));
+        Set<${RKeyColumn.fieldType}> ${t.sc($RKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($RKeyColumn.fieldName)});
+        Map<${LKeyColumn.fieldType}, List<${RKeyColumn.fieldType}>> map = ${t.sc($ClassName)}s.stream().collect(Collectors.groupingBy(${ClassName}::get${t.sc($LKeyColumn.fieldName)}, Collectors.mapping(${ClassName}::get${t.sc($RKeyColumn.fieldName)}, Collectors.toList())));
+        if (${t.sc($RKeyColumn.referencedClassName)}Ids.size() == 0) {
+            return ${t.sc($LKeyColumn.referencedClassName)}VoList;
+        }
+        Table<${LKeyColumn.fieldType}, ${RKeyColumn.fieldType}, ${ClassName}> table = TableUtils.createHashTable(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($LKeyColumn.fieldName)}, ${ClassName}::get${t.sc($RKeyColumn.fieldName)});
+        LambdaQueryWrapper<${RKeyColumn.referencedClassName}> queryWrapper = Wrappers.lambdaQuery(${RKeyColumn.referencedClassName}.class).in(${RKeyColumn.referencedClassName}::get${t.sc($RKeyColumn.referencedFieldName)}, ${t.sc($RKeyColumn.referencedClassName)}Ids);
+        List<${RKeyColumn.referencedClassName}Bo> ${t.sc($RKeyColumn.referencedClassName)}BoList = EntityUtils.toList(${t.sc($RKeyColumn.referencedClassName)}Service.list(queryWrapper), ${RKeyColumn.referencedClassName}Bo::new);
+        for (${LKeyColumn.referencedClassName}Vo ${t.sc($LKeyColumn.referencedClassName)}Vo : ${t.sc($LKeyColumn.referencedClassName)}VoList) {
+            List<${RKeyColumn.referencedClassName}Bo> list = ${t.sc($RKeyColumn.referencedClassName)}BoList.stream().filter(e -> map.get(${t.sc($LKeyColumn.referencedClassName)}Vo.get${t.sc($LKeyColumn.referencedFieldName)}()) != null && map.get(${t.sc($LKeyColumn.referencedClassName)}Vo.get${t.sc($LKeyColumn.referencedFieldName)}()).contains(e.get${t.sc($RKeyColumn.referencedFieldName)}())).collect(Collectors.toList());
+            list.forEach(e -> BeanCopyUtils.copyProperties(table.get(${t.sc($LKeyColumn.referencedClassName)}Vo.get${t.sc($LKeyColumn.referencedFieldName)}(), e.get${t.sc($RKeyColumn.referencedFieldName)}()), e));
+            ${t.sc($LKeyColumn.referencedClassName)}Vo.set${RKeyColumn.referencedClassName}BoList(list);
+        }
+        return ${t.sc($LKeyColumn.referencedClassName)}VoList;
+    }
+
+    default IPage<${LKeyColumn.referencedClassName}Vo> pageVo(IPage<${LKeyColumn.referencedClassName}> page, ${LKeyColumn.referencedClassName} ${t.sc($LKeyColumn.referencedClassName)}) {
+        IPage<${LKeyColumn.referencedClassName}Vo> ${t.sc($LKeyColumn.referencedClassName)}VoPage = EntityUtils.toPage(${t.sc($LKeyColumn.referencedClassName)}Service.page(page, Wrappers.lambdaQuery(${t.sc($LKeyColumn.referencedClassName)})), ${LKeyColumn.referencedClassName}Vo::new);
+        Set<${LKeyColumn.fieldType}> ${t.sc($LKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($LKeyColumn.referencedClassName)}VoPage.getRecords(), ${LKeyColumn.referencedClassName}::get${t.sc($LKeyColumn.referencedFieldName)});
+        if (${t.sc($LKeyColumn.referencedClassName)}Ids.size() == 0) {
+            return ${t.sc($LKeyColumn.referencedClassName)}VoPage;
+        }
+        List<${ClassName}> ${t.sc($ClassName)}s = list(Wrappers.lambdaQuery(${ClassName}.class).in(${ClassName}::get${t.sc($LKeyColumn.fieldName)}, ${t.sc($LKeyColumn.referencedClassName)}Ids));
+        Set<${RKeyColumn.fieldType}> ${t.sc($RKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($RKeyColumn.fieldName)});
+        if (${t.sc($RKeyColumn.referencedClassName)}Ids.size() == 0) {
+            return ${t.sc($LKeyColumn.referencedClassName)}VoPage;
+        }
+        Table<${LKeyColumn.fieldType}, ${RKeyColumn.fieldType}, ${ClassName}> table = TableUtils.createHashTable(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($LKeyColumn.fieldName)}, ${ClassName}::get${t.sc($RKeyColumn.fieldName)});
+        Map<${LKeyColumn.fieldType}, List<${RKeyColumn.fieldType}>> map = ${t.sc($ClassName)}s.stream().collect(Collectors.groupingBy(${ClassName}::get${t.sc($LKeyColumn.fieldName)}, Collectors.mapping(${ClassName}::get${t.sc($RKeyColumn.fieldName)}, Collectors.toList())));
+
+        List<${RKeyColumn.referencedClassName}Bo> ${t.sc($RKeyColumn.referencedClassName)}BoList = EntityUtils.toList(${t.sc($RKeyColumn.referencedClassName)}Service.list(Wrappers.lambdaQuery(${RKeyColumn.referencedClassName}.class).in(${RKeyColumn.referencedClassName}::get${t.sc($RKeyColumn.referencedFieldName)}, ${t.sc($RKeyColumn.referencedClassName)}Ids)), ${RKeyColumn.referencedClassName}Bo::new);
+        for (${LKeyColumn.referencedClassName}Vo ${t.sc($LKeyColumn.referencedClassName)}Vo : ${t.sc($LKeyColumn.referencedClassName)}VoPage.getRecords()) {
+            List<${RKeyColumn.referencedClassName}Bo> list = ${t.sc($RKeyColumn.referencedClassName)}BoList.stream().filter(e -> map.get(${t.sc($LKeyColumn.referencedClassName)}Vo.get${t.sc($LKeyColumn.referencedFieldName)}()) != null && map.get(${t.sc($LKeyColumn.referencedClassName)}Vo.get${t.sc($LKeyColumn.referencedFieldName)}()).contains(e.get${t.sc($RKeyColumn.referencedFieldName)}())).collect(Collectors.toList());
+            list.forEach(e -> BeanCopyUtils.copyProperties(table.get(${t.sc($LKeyColumn.referencedClassName)}Vo.get${t.sc($LKeyColumn.referencedFieldName)}(), e.get${t.sc($RKeyColumn.referencedFieldName)}()), e));
+            ${t.sc($LKeyColumn.referencedClassName)}Vo.set${RKeyColumn.referencedClassName}BoList(list);
+        }
+        return ${t.sc($LKeyColumn.referencedClassName)}VoPage;
+    }
+
+    default ${RKeyColumn.referencedClassName}Vo get${RKeyColumn.referencedClassName}Vo(${RKeyColumn.fieldType} ${RKeyColumn.fieldName}) {
+            ${RKeyColumn.referencedClassName}Vo ${t.sc($RKeyColumn.referencedClassName)}Vo = EntityUtils.toObj(${t.sc($RKeyColumn.referencedClassName)}Service.getById(${RKeyColumn.fieldName}), ${RKeyColumn.referencedClassName}Vo::new);
+        List<${ClassName}> ${t.sc($ClassName)}s = list(Wrappers.lambdaQuery(${ClassName}.class).eq(${ClassName}::get${t.sc($RKeyColumn.fieldName)}, ${RKeyColumn.fieldName}));
+        Set<${LKeyColumn.fieldType}> ${t.sc($LKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($LKeyColumn.fieldName)});
+        if (${t.sc($RKeyColumn.referencedClassName)}Vo != null && ${t.sc($LKeyColumn.referencedClassName)}Ids.size() > 0) {
+            LambdaQueryWrapper<${LKeyColumn.referencedClassName}> queryWrapper = Wrappers.lambdaQuery(${LKeyColumn.referencedClassName}.class).in(${LKeyColumn.referencedClassName}::get${t.sc($LKeyColumn.referencedFieldName)}, ${t.sc($LKeyColumn.referencedClassName)}Ids);
+            List<${LKeyColumn.referencedClassName}Bo> subBoList = EntityUtils.toList(${t.sc($LKeyColumn.referencedClassName)}Service.list(queryWrapper), ${LKeyColumn.referencedClassName}Bo::new);
+            Table<${RKeyColumn.fieldType}, ${LKeyColumn.fieldType}, ${ClassName}> table = TableUtils.createHashTable(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($RKeyColumn.fieldName)}, ${ClassName}::get${t.sc($LKeyColumn.fieldName)});
+            subBoList.forEach(e -> BeanCopyUtils.copyProperties(table.get(${RKeyColumn.fieldName}, e.get${t.sc($LKeyColumn.referencedFieldName)}()), e));
+                ${t.sc($RKeyColumn.referencedClassName)}Vo.set${LKeyColumn.referencedClassName}BoList(subBoList);
+        }
+        return ${t.sc($RKeyColumn.referencedClassName)}Vo;
+    }
+
+    default List<${RKeyColumn.referencedClassName}Vo> listVo(${RKeyColumn.referencedClassName} ${t.sc($RKeyColumn.referencedClassName)}) {
+        List<${RKeyColumn.referencedClassName}Vo> ${t.sc($RKeyColumn.referencedClassName)}VoList = EntityUtils.toList(${t.sc($RKeyColumn.referencedClassName)}Service.list(Wrappers.lambdaQuery(${t.sc($RKeyColumn.referencedClassName)})), ${RKeyColumn.referencedClassName}Vo::new);
+        Set<${RKeyColumn.fieldType}> ${t.sc($RKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($RKeyColumn.referencedClassName)}VoList, ${RKeyColumn.referencedClassName}::get${t.sc($RKeyColumn.referencedFieldName)});
+        if (${t.sc($RKeyColumn.referencedClassName)}Ids.size() == 0) {
+            return ${t.sc($RKeyColumn.referencedClassName)}VoList;
+        }
+        List<${ClassName}> ${t.sc($ClassName)}s = list(Wrappers.lambdaQuery(${ClassName}.class).in(${ClassName}::get${t.sc($RKeyColumn.fieldName)}, ${t.sc($RKeyColumn.referencedClassName)}Ids));
+        Set<${LKeyColumn.fieldType}> ${t.sc($LKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($LKeyColumn.fieldName)});
+        Map<${RKeyColumn.fieldType}, List<${LKeyColumn.fieldType}>> map = ${t.sc($ClassName)}s.stream().collect(Collectors.groupingBy(${ClassName}::get${t.sc($RKeyColumn.fieldName)}, Collectors.mapping(${ClassName}::get${t.sc($LKeyColumn.fieldName)}, Collectors.toList())));
+        if (${t.sc($LKeyColumn.referencedClassName)}Ids.size() == 0) {
+            return ${t.sc($RKeyColumn.referencedClassName)}VoList;
+        }
+        Table<${RKeyColumn.fieldType}, ${LKeyColumn.fieldType}, ${ClassName}> table = TableUtils.createHashTable(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($RKeyColumn.fieldName)}, ${ClassName}::get${t.sc($LKeyColumn.fieldName)});
+        LambdaQueryWrapper<${LKeyColumn.referencedClassName}> queryWrapper = Wrappers.lambdaQuery(${LKeyColumn.referencedClassName}.class).in(${LKeyColumn.referencedClassName}::get${t.sc($LKeyColumn.referencedFieldName)}, ${t.sc($LKeyColumn.referencedClassName)}Ids);
+        List<${LKeyColumn.referencedClassName}Bo> ${t.sc($LKeyColumn.referencedClassName)}BoList = EntityUtils.toList(${t.sc($LKeyColumn.referencedClassName)}Service.list(queryWrapper), ${LKeyColumn.referencedClassName}Bo::new);
+        for (${RKeyColumn.referencedClassName}Vo ${t.sc($RKeyColumn.referencedClassName)}Vo : ${t.sc($RKeyColumn.referencedClassName)}VoList) {
+            List<${LKeyColumn.referencedClassName}Bo> list = ${t.sc($LKeyColumn.referencedClassName)}BoList.stream().filter(e -> map.get(${t.sc($RKeyColumn.referencedClassName)}Vo.get${t.sc($RKeyColumn.referencedFieldName)}()) != null && map.get(${t.sc($RKeyColumn.referencedClassName)}Vo.get${t.sc($RKeyColumn.referencedFieldName)}()).contains(e.get${t.sc($LKeyColumn.referencedFieldName)}())).collect(Collectors.toList());
+            list.forEach(e -> BeanCopyUtils.copyProperties(table.get(${t.sc($RKeyColumn.referencedClassName)}Vo.get${t.sc($RKeyColumn.referencedFieldName)}(), e.get${t.sc($LKeyColumn.referencedFieldName)}()), e));
+                ${t.sc($RKeyColumn.referencedClassName)}Vo.set${LKeyColumn.referencedClassName}BoList(list);
+        }
+        return ${t.sc($RKeyColumn.referencedClassName)}VoList;
+    }
+
+    default IPage<${RKeyColumn.referencedClassName}Vo> pageVo(IPage<${RKeyColumn.referencedClassName}> page, ${RKeyColumn.referencedClassName} ${t.sc($RKeyColumn.referencedClassName)}) {
+        IPage<${RKeyColumn.referencedClassName}Vo> ${t.sc($RKeyColumn.referencedClassName)}VoPage = EntityUtils.toPage(${t.sc($RKeyColumn.referencedClassName)}Service.page(page, Wrappers.lambdaQuery(${t.sc($RKeyColumn.referencedClassName)})), ${RKeyColumn.referencedClassName}Vo::new);
+        Set<${RKeyColumn.fieldType}> ${t.sc($RKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($RKeyColumn.referencedClassName)}VoPage.getRecords(), ${RKeyColumn.referencedClassName}::get${t.sc($RKeyColumn.referencedFieldName)});
+        if (${t.sc($RKeyColumn.referencedClassName)}Ids.size() == 0) {
+            return ${t.sc($RKeyColumn.referencedClassName)}VoPage;
+        }
+        List<${ClassName}> ${t.sc($ClassName)}s = list(Wrappers.lambdaQuery(${ClassName}.class).in(${ClassName}::get${t.sc($RKeyColumn.fieldName)}, ${t.sc($RKeyColumn.referencedClassName)}Ids));
+        Set<${LKeyColumn.fieldType}> ${t.sc($LKeyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($LKeyColumn.fieldName)});
+        if (${t.sc($LKeyColumn.referencedClassName)}Ids.size() == 0) {
+            return ${t.sc($RKeyColumn.referencedClassName)}VoPage;
+        }
+        Table<${RKeyColumn.fieldType}, ${LKeyColumn.fieldType}, ${ClassName}> table = TableUtils.createHashTable(${t.sc($ClassName)}s, ${ClassName}::get${t.sc($RKeyColumn.fieldName)}, ${ClassName}::get${t.sc($LKeyColumn.fieldName)});
+        Map<${RKeyColumn.fieldType}, List<${LKeyColumn.fieldType}>> map = ${t.sc($ClassName)}s.stream().collect(Collectors.groupingBy(${ClassName}::get${t.sc($RKeyColumn.fieldName)}, Collectors.mapping(${ClassName}::get${t.sc($LKeyColumn.fieldName)}, Collectors.toList())));
+
+        List<${LKeyColumn.referencedClassName}Bo> ${t.sc($LKeyColumn.referencedClassName)}BoList = EntityUtils.toList(${t.sc($LKeyColumn.referencedClassName)}Service.list(Wrappers.lambdaQuery(${LKeyColumn.referencedClassName}.class).in(${LKeyColumn.referencedClassName}::get${t.sc($LKeyColumn.referencedFieldName)}, ${t.sc($LKeyColumn.referencedClassName)}Ids)), ${LKeyColumn.referencedClassName}Bo::new);
+        for (${RKeyColumn.referencedClassName}Vo ${t.sc($RKeyColumn.referencedClassName)}Vo : ${t.sc($RKeyColumn.referencedClassName)}VoPage.getRecords()) {
+            List<${LKeyColumn.referencedClassName}Bo> list = ${t.sc($LKeyColumn.referencedClassName)}BoList.stream().filter(e -> map.get(${t.sc($RKeyColumn.referencedClassName)}Vo.get${t.sc($RKeyColumn.referencedFieldName)}()) != null && map.get(${t.sc($RKeyColumn.referencedClassName)}Vo.get${t.sc($RKeyColumn.referencedFieldName)}()).contains(e.get${t.sc($LKeyColumn.referencedFieldName)}())).collect(Collectors.toList());
+            list.forEach(e -> BeanCopyUtils.copyProperties(table.get(${t.sc($RKeyColumn.referencedClassName)}Vo.get${t.sc($RKeyColumn.referencedFieldName)}(), e.get${t.sc($LKeyColumn.referencedFieldName)}()), e));
+                ${t.sc($RKeyColumn.referencedClassName)}Vo.set${LKeyColumn.referencedClassName}BoList(list);
+        }
+        return ${t.sc($RKeyColumn.referencedClassName)}VoPage;
+    }
+#end
+}

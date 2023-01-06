@@ -1,0 +1,73 @@
+/*
+ *
+ * Copyright (c) 2020-2022, Java知识图谱 (http://www.altitude.xin).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+package xin.altitude.cms.quartz.util;
+
+import org.quartz.CronExpression;
+
+import java.text.ParseException;
+import java.util.Date;
+
+/**
+ * cron表达式工具类
+ *
+ * @author <a href="http://www.altitude.xin" target="_blank">Java知识图谱</a>
+ * @author <a href="https://gitee.com/decsa/ucode-cms-vue" target="_blank">UCode CMS</a>
+ * @author <a href="https://space.bilibili.com/1936685014" target="_blank">B站视频</a>
+ */
+public class CronUtils {
+    /**
+     * 返回一个布尔值代表一个给定的Cron表达式的有效性
+     *
+     * @param cronExpression Cron表达式
+     * @return boolean 表达式是否有效
+     */
+    public static boolean isValid(String cronExpression) {
+        return CronExpression.isValidExpression(cronExpression);
+    }
+
+    /**
+     * 返回一个字符串值,表示该消息无效Cron表达式给出有效性
+     *
+     * @param cronExpression Cron表达式
+     * @return String 无效时返回表达式错误描述,如果有效返回null
+     */
+    public static String getInvalidMessage(String cronExpression) {
+        try {
+            new CronExpression(cronExpression);
+            return null;
+        } catch (ParseException pe) {
+            return pe.getMessage();
+        }
+    }
+
+    /**
+     * 返回下一个执行时间根据给定的Cron表达式
+     *
+     * @param cronExpression Cron表达式
+     * @return Date 下次Cron表达式执行时间
+     */
+    public static Date getNextExecution(String cronExpression) {
+        try {
+            CronExpression cron = new CronExpression(cronExpression);
+            return cron.getNextValidTimeAfter(new Date(System.currentTimeMillis()));
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+}

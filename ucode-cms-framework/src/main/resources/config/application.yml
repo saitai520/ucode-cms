@@ -1,0 +1,8 @@
+ucode:
+  thread:
+    corePoolSize: 10
+    maxPoolSize: 20
+    keepAliveSeconds: 300
+    scheduleEnabled: true
+    fixEnabled: false
+    cacheEnabled: false

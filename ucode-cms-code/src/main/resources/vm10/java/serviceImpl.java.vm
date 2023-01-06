@@ -1,0 +1,14 @@
+package ${packageName}.service.impl;
+
+#foreach ($item in $importList)
+    ${item}
+#end
+
+@Service
+public class ${ClassName}ServiceImpl
+#if($configEntity.useMybatisPlus)
+ extends ServiceImpl<${ClassName}Mapper,${ClassName}> implements I${ClassName}Service
+#end
+{
+
+}

@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "ucode.job.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启动定时任务.",
+      "defaultValue": false
+    },
+    {
+      "name": "ucode.job.persist",
+      "type": "java.lang.Boolean",
+      "description": "定时任务数据是否持久化到数据库.",
+      "defaultValue": false
+    }
+  ]
+}

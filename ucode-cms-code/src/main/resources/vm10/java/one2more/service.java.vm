@@ -1,0 +1,46 @@
+package ${packageName}.service;
+
+#foreach ($item in $importList)
+    ${item}
+#end
+
+public interface I${ClassName}Service
+#if($configEntity.useMybatisPlus)
+ extends IService<${ClassName}>
+#end
+{
+#if($joinQuery&&$keyColumn)
+    /** 通过方法调用来解决循环依赖问题 */
+    default I${keyColumn.referencedClassName}Service get${keyColumn.referencedClassName}Service() {
+        return SpringUtils.getBean(I${keyColumn.referencedClassName}Service.class);
+    }
+
+    /**查询用户实体类Vo*/
+    default ${keyColumn.className}Vo getOneVo(${pkFieldType} ${pkFieldName}) {
+        ${keyColumn.className}Vo ${t.sc($keyColumn.className)}Vo = EntityUtils.toObj(getById(${pkFieldName}), ${keyColumn.className}Vo::new);
+        List<${keyColumn.referencedClassName}> ${t.sc($keyColumn.referencedClassName)}List = get${keyColumn.referencedClassName}Service().list(Wrappers.lambdaQuery(${keyColumn.referencedClassName}.class).eq(${keyColumn.referencedClassName}::get${t.sc($keyColumn.referencedFieldName)}, ${t.sc($keyColumn.className)}Vo.get${t.sc($keyColumn.fieldName)}()));
+        ${t.sc($keyColumn.className)}Vo.set${keyColumn.referencedClassName}List(${t.sc($keyColumn.referencedClassName)}List);
+        return ${t.sc($keyColumn.className)}Vo;
+    }
+
+    /**查询实体类Vo列表*/
+    default List<${keyColumn.className}Vo> listVo(${keyColumn.className} ${t.sc($keyColumn.className)}) {
+        List<${keyColumn.className}Vo> ${t.sc($keyColumn.className)}VoList = EntityUtils.toList(list(Wrappers.lambdaQuery(${t.sc($keyColumn.className)})), ${keyColumn.className}Vo::new);
+        Set<${keyColumn.fieldType}> ${t.sc($keyColumn.className)}Ids = EntityUtils.toSet(${t.sc($keyColumn.className)}VoList, ${keyColumn.className}Vo::get${t.sc($keyColumn.fieldName)});
+        List<${keyColumn.referencedClassName}> ${t.sc($keyColumn.referencedClassName)}List = get${keyColumn.referencedClassName}Service().list(Wrappers.lambdaQuery(${keyColumn.referencedClassName}.class).in(${keyColumn.referencedClassName}::get${t.sc($keyColumn.referencedFieldName)}, ${t.sc($keyColumn.className)}Ids));
+        Map<Long, List<${keyColumn.referencedClassName}>> map = ${t.sc($keyColumn.referencedClassName)}List.stream().collect(Collectors.groupingBy(${keyColumn.referencedClassName}::get${t.sc($keyColumn.referencedFieldName)}));
+        ${t.sc($keyColumn.className)}VoList.forEach(e -> e.set${keyColumn.referencedClassName}List(map.get(e.get${t.sc($pkFieldName)}())));
+        return ${t.sc($keyColumn.className)}VoList;
+    }
+
+    /**分页查询实体类Vo*/
+    default IPage<${keyColumn.className}Vo> pageVo(IPage<${keyColumn.className}> page, ${keyColumn.className} ${t.sc($keyColumn.className)}) {
+        IPage<${keyColumn.className}Vo> ${t.sc($keyColumn.className)}VoPage = EntityUtils.toPage(page(page, Wrappers.lambdaQuery(${t.sc($keyColumn.className)})), ${keyColumn.className}Vo::new);
+        Set<${keyColumn.fieldType}> ${t.sc($keyColumn.className)}Ids = EntityUtils.toSet(${t.sc($keyColumn.className)}VoPage.getRecords(), ${keyColumn.className}Vo::get${t.sc($keyColumn.fieldName)});
+        List<${keyColumn.referencedClassName}> ${t.sc($keyColumn.referencedClassName)}List = get${keyColumn.referencedClassName}Service().list(Wrappers.lambdaQuery(${keyColumn.referencedClassName}.class).in(${keyColumn.referencedClassName}::get${t.sc($keyColumn.referencedFieldName)}, ${t.sc($keyColumn.className)}Ids));
+        Map<Long, List<${keyColumn.referencedClassName}>> map = ${t.sc($keyColumn.referencedClassName)}List.stream().collect(Collectors.groupingBy(${keyColumn.referencedClassName}::get${t.sc($keyColumn.referencedFieldName)}));
+        ${t.sc($keyColumn.className)}VoPage.getRecords().forEach(e -> e.set${keyColumn.referencedClassName}List(map.get(e.get${t.sc($pkFieldName)}())));
+        return ${t.sc($keyColumn.className)}VoPage;
+    }
+#end
+}

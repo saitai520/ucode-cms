@@ -1,0 +1,30 @@
+[
+    {
+        "education": "本科",
+        "id": 101,
+        "name": "AAA",
+        "remark": "备注",
+        "sex": true
+    },
+    {
+        "education": "本科",
+        "id": 102,
+        "name": "BBB",
+        "remark": "备注2",
+        "sex": true
+    },
+    {
+        "education": "硕士",
+        "id": 103,
+        "name": "CCC",
+        "remark": "备注",
+        "sex": true
+    },
+    {
+        "education": "博士",
+        "id": 104,
+        "name": "DDD",
+        "remark": "备注",
+        "sex": false
+    }
+]

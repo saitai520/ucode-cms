@@ -1,0 +1,45 @@
+package ${packageName}.controller;
+#foreach ($item in $importList)
+    ${item}
+#end
+
+@RestController
+@RequestMapping("/${configEntity.moduleName}/${businessName}")
+public class ${ClassName}Controller
+{
+    @Autowired
+    private I${ClassName}Service ${t.sc($ClassName)}Service;
+
+    @GetMapping("/page")
+    public AjaxResult page(PageEntity pageEntity,${ClassName} ${t.sc($ClassName)}){
+        return AjaxResult.success(${t.sc($ClassName)}Service.page(pageEntity.toPage(), Wrappers.lambdaQuery(${t.sc($ClassName)})));
+    }
+
+    @GetMapping("/list")
+    public AjaxResult list(${ClassName} ${t.sc($ClassName)}){
+        return AjaxResult.success(${t.sc($ClassName)}Service.list(Wrappers.lambdaQuery(${t.sc($ClassName)})));
+    }
+
+#if($!pkColumn.fieldName)
+    @PostMapping("/add")
+    public AjaxResult add(@RequestBody ${ClassName} ${t.sc($ClassName)}) {
+        return AjaxResult.success(${t.sc($ClassName)}Service.save(${t.sc($ClassName)}));
+    }
+
+    @PutMapping("/edit")
+    public AjaxResult edit(@RequestBody ${ClassName} ${t.sc($ClassName)}) {
+        return AjaxResult.success(${t.sc($ClassName)}Service.updateById(${t.sc($ClassName)}));
+    }
+
+    @DeleteMapping("/delete/{${pkColumn.fieldName}s}")
+    public AjaxResult delete(@PathVariable ${pkColumn.fieldType}[] ${pkColumn.fieldName}s) {
+        return AjaxResult.success(${t.sc($ClassName)}Service.removeByIds(Arrays.asList(${pkColumn.fieldName}s)));
+    }
+
+    @GetMapping(value = "/detail/{${pkColumn.fieldName}}")
+    public AjaxResult detail(@PathVariable("${pkColumn.fieldName}") ${pkColumn.fieldType} ${pkColumn.fieldName}) {
+        return AjaxResult.success(${t.sc($ClassName)}Service.getById(${pkColumn.fieldName}));
+    }
+
+#end
+}

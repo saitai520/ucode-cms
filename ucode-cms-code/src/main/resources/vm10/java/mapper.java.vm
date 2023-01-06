@@ -1,0 +1,18 @@
+package ${packageName}.mapper;
+
+#foreach ($item in $importList)
+    ${item}
+#end
+
+@Mapper
+@Transactional(rollbackFor = Exception.class)
+#if($configEntity.useMybatisPlus&&$configEntity.mapper.useCache)
+@CacheNamespace(eviction = ScheduledCache.class, blocking = true, flushInterval = 60 * 1000)
+#end
+public interface ${ClassName}Mapper
+#if($configEntity.useMybatisPlus)
+ extends BaseMapper<${ClassName}>
+#end
+{
+
+}

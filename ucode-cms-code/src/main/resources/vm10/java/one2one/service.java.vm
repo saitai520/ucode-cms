@@ -1,0 +1,41 @@
+package ${packageName}.service;
+
+#foreach ($item in $importList)
+    ${item}
+#end
+
+public interface I${ClassName}Service
+#if($configEntity.useMybatisPlus)
+ extends IService<${ClassName}>
+#end
+{
+#if($joinQuery&&$keyColumn)
+    I${keyColumn.referencedClassName}Service ${t.sc($keyColumn.referencedClassName)}Service = SpringUtils.getBean(I${keyColumn.referencedClassName}Service.class);
+
+    /**查询用户实体类Vo*/
+    default ${keyColumn.className}Vo getOneVo(${pkFieldType} ${pkFieldName}) {
+        ${keyColumn.className}Vo ${t.sc($keyColumn.className)}Vo = EntityUtils.toObj(getById(${pkFieldName}), ${keyColumn.className}Vo::new);
+        ${keyColumn.referencedClassName} ${t.sc($keyColumn.referencedClassName)} = ${t.sc($keyColumn.referencedClassName)}Service.getById(${t.sc($keyColumn.className)}Vo.get${t.sc($keyColumn.referencedFieldName)}());
+        BeanCopyUtils.copyProperties(${t.sc($keyColumn.referencedClassName)}, ${t.sc($keyColumn.className)}Vo);
+        return ${t.sc($keyColumn.className)}Vo;
+    }
+
+    /**查询实体类Vo列表*/
+    default List<${keyColumn.className}Vo> listVo(${keyColumn.className} ${t.sc($keyColumn.className)}) {
+        List<${keyColumn.className}Vo> ${t.sc($keyColumn.className)}VoList = EntityUtils.toList(list(Wrappers.lambdaQuery(${t.sc($keyColumn.className)})), ${keyColumn.className}Vo::new);
+        Set<${keyColumn.fieldType}> ${t.sc($keyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($keyColumn.className)}VoList, ${keyColumn.className}Vo::get${t.sc($keyColumn.fieldName)});
+        Map<${keyColumn.referencedFieldType}, ${keyColumn.referencedClassName}> map = EntityUtils.toMap(${t.sc($keyColumn.referencedClassName)}Service.listByIds(${t.sc($keyColumn.referencedClassName)}Ids), ${keyColumn.referencedClassName}::get${t.sc($keyColumn.referencedFieldName)}, e -> e);
+        ${t.sc($keyColumn.className)}VoList.forEach(e -> BeanCopyUtils.copyProperties(map.get(e.get${t.sc($keyColumn.fieldName)}()), e));
+        return ${t.sc($keyColumn.className)}VoList;
+    }
+
+    /**分页查询实体类Vo*/
+    default IPage<${keyColumn.className}Vo> pageVo(IPage<${keyColumn.className}> page, ${keyColumn.className} ${t.sc($keyColumn.className)}) {
+        IPage<${keyColumn.className}Vo> ${t.sc($keyColumn.className)}VoPage = EntityUtils.toPage(page(page, Wrappers.lambdaQuery(${t.sc($keyColumn.className)})), ${keyColumn.className}Vo::new);
+        Set<${keyColumn.fieldType}> ${t.sc($keyColumn.referencedClassName)}Ids = EntityUtils.toSet(${t.sc($keyColumn.className)}VoPage.getRecords(), ${keyColumn.className}Vo::get${t.sc($keyColumn.fieldName)});
+        Map<${keyColumn.referencedFieldType}, ${keyColumn.referencedClassName}> map = EntityUtils.toMap(${t.sc($keyColumn.referencedClassName)}Service.listByIds(${t.sc($keyColumn.referencedClassName)}Ids), ${keyColumn.referencedClassName}::get${t.sc($keyColumn.referencedFieldName)}, e -> e);
+        ${t.sc($keyColumn.className)}VoPage.getRecords().forEach(e -> BeanCopyUtils.copyProperties(map.get(e.get${t.sc($keyColumn.fieldName)}()), e));
+        return ${t.sc($keyColumn.className)}VoPage;
+    }
+#end
+}

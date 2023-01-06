@@ -1,0 +1,41 @@
+package ${packageName}.service;
+
+#foreach ($item in $importList)
+    ${item}
+#end
+
+public interface I${ClassName}Service
+    #if($configEntity.useMybatisPlus)
+            extends IService<${ClassName}>
+    #end
+{
+    #if($keyColumn)
+        I${keyColumn.referencedClassName}Service ${keyColumn.referencedInstanceName}Service = SpringUtils.getBean(I${keyColumn.referencedClassName}Service.class);
+
+        /**查询用户实体类Vo*/
+        default ${keyColumn.className}Vo getOneVo(${keyColumn.fieldType} ${keyColumn.fieldName}) {
+                ${keyColumn.className}Vo ${keyColumn.instanceName}Vo = EntityUtils.toObj(getById(${keyColumn.fieldName}), ${keyColumn.className}Vo::new);
+            ${keyColumn.referencedClassName} ${keyColumn.referencedInstanceName} = ${keyColumn.referencedInstanceName}Service.getById(${keyColumn.instanceName}Vo.get${keyColumn.referencedUpperFieldName}());
+            BeanCopyUtils.copyProperties(${keyColumn.referencedInstanceName}, ${keyColumn.instanceName}Vo);
+            return ${keyColumn.instanceName}Vo;
+        }
+
+        /**查询实体类Vo列表*/
+        default List<${keyColumn.className}Vo> listVo(${keyColumn.className} ${keyColumn.instanceName}) {
+            List<${keyColumn.className}Vo> ${keyColumn.instanceName}VoList = EntityUtils.toList(list(Wrappers.lambdaQuery(${keyColumn.instanceName})), ${keyColumn.className}Vo::new);
+            Set<${keyColumn.referencedFieldType}> ${keyColumn.referencedInstanceName}Ids = EntityUtils.toSet(${keyColumn.instanceName}VoList, ${keyColumn.className}Vo::get${keyColumn.referencedUpperFieldName});
+            Map<${keyColumn.referencedFieldType}, ${keyColumn.referencedClassName}> map = EntityUtils.toMap(${keyColumn.referencedInstanceName}Service.listByIds(${keyColumn.referencedInstanceName}Ids), ${keyColumn.referencedClassName}::getDeptId, e -> e);
+                ${keyColumn.instanceName}VoList.forEach(e -> BeanCopyUtils.copyProperties(map.get(e.get${keyColumn.referencedUpperFieldName}()), e));
+            return ${keyColumn.instanceName}VoList;
+        }
+
+        /**分页查询实体类Vo*/
+        default IPage<${keyColumn.className}Vo> pageVo(IPage<${keyColumn.className}> page, ${keyColumn.className} ${keyColumn.instanceName}) {
+            IPage<${keyColumn.className}Vo> ${keyColumn.instanceName}VoPage = EntityUtils.toPage(page(page, Wrappers.lambdaQuery(${keyColumn.instanceName})), ${keyColumn.className}Vo::new);
+            Set<${keyColumn.referencedFieldType}> ${keyColumn.referencedInstanceName}Ids = EntityUtils.toSet(${keyColumn.instanceName}VoPage.getRecords(), ${keyColumn.className}Vo::get${keyColumn.referencedUpperFieldName});
+            Map<${keyColumn.referencedFieldType}, ${keyColumn.referencedClassName}> map = EntityUtils.toMap(${keyColumn.referencedInstanceName}Service.listByIds(${keyColumn.referencedInstanceName}Ids), ${keyColumn.referencedClassName}::getDeptId, e -> e);
+                ${keyColumn.instanceName}VoPage.getRecords().forEach(e -> BeanCopyUtils.copyProperties(map.get(e.get${keyColumn.referencedUpperFieldName}()), e));
+            return ${keyColumn.instanceName}VoPage;
+        }
+    #end
+}

@@ -1,0 +1,5 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    xin.altitude.cms.job.controller.SysJobController,\
+    xin.altitude.cms.job.controller.SysJobLogController
+
