@@ -20,7 +20,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-core</artifactId>
-            <!--<optional>true</optional>-->
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -76,13 +75,13 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
             <scope>provided</scope>
         </dependency>
-
-
         <dependency>
             <groupId>org.redisson</groupId>
-            <!--<artifactId>redisson-spring-boot-starter</artifactId>-->
             <artifactId>redisson</artifactId>
+            <optional>true</optional>
         </dependency>
+
+
 
 
         <dependency>

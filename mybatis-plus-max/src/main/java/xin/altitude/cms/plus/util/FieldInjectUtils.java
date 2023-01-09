@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2020-2022, Java知识图谱 (http://www.altitude.xin).
+ * Copyright (c) 2020-2023, Java知识图谱 (http://www.altitude.xin).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  *
  */
 
-package xin.altitude.cms.common.util;
+package xin.altitude.cms.plus.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -24,6 +24,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.service.IService;
+import xin.altitude.cms.common.util.BeanCopyUtils;
+import xin.altitude.cms.common.util.EntityUtils;
+import xin.altitude.cms.common.util.GuavaUtils;
+import xin.altitude.cms.common.util.RefUtils;
+import xin.altitude.cms.common.util.SpringUtils;
+import xin.altitude.cms.common.util.StringUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -73,9 +79,9 @@ public class FieldInjectUtils {
             List<String> injectFiledNames = RefUtils.getFiledNames(injectColumns);
             String[] selectField = {fieldName, String.join(",", injectFiledNames)};
             // 数据库查询字段需要下划线表示
-            String selectStr = Arrays.stream(selectField).map(StringUtil::toUnderScoreCase).collect(Collectors.joining(","));
+            String selectStr = Arrays.stream(selectField).map(GuavaUtils::toUnderScoreCase).collect(Collectors.joining(","));
             // 构造副表查询条件(查询指定列元素)
-            QueryWrapper<S> wrapper = Wrappers.query(RefUtils.newInstance(iService.getEntityClass())).select(selectStr).in(StringUtil.toUnderScoreCase(fieldName), ids);
+            QueryWrapper<S> wrapper = Wrappers.query(RefUtils.newInstance(iService.getEntityClass())).select(selectStr).in(GuavaUtils.toUnderScoreCase(fieldName), ids);
             // 通过主表的外键查询关联副表符合条件的数据
             List<S> list = iService.getBaseMapper().selectList(wrapper);
             // 将list转换为map 其中Key为副表主键 Value为副表类型实例本身

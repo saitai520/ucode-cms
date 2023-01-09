@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2020-2022, Java知识图谱 (http://www.altitude.xin).
+ * Copyright (c) 2020-2023, Java知识图谱 (http://www.altitude.xin).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
  *
  */
 
-package xin.altitude.cms.common.support;
+package xin.altitude.cms.plus.support;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.springframework.transaction.annotation.Transactional;
-import xin.altitude.cms.common.util.PlusUtils;
+import xin.altitude.cms.plus.util.PlusUtils;
 
 import java.io.Serializable;
 import java.util.Collection;

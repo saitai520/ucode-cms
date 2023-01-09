@@ -23,7 +23,6 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import xin.altitude.cms.common.util.EntityUtils;
-import xin.altitude.cms.common.util.PlusUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
@@ -38,6 +37,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 
 /**
@@ -79,7 +79,7 @@ public class QueueServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M,
                 List<AsynFuture<T>> requests = MergeHelper.pollFuture(queue, maxRequestSize);
                 Set<Serializable> ids = EntityUtils.toSet(requests, AsynFuture::getId);
                 List<T> list = this.listByIds(ids);
-                Map<Serializable, T> map = EntityUtils.toMap(list, e -> PlusUtils.pkVal(tableInfo, e), e -> e);
+                Map<Serializable, T> map = EntityUtils.toMap(list, e -> pkVal(tableInfo, e), Function.identity());
                 requests.forEach((e) -> e.getFuture().complete(MergeHelper.fetchMapValue(map, keyType, e.getId())));
             }
         };
@@ -124,6 +124,21 @@ public class QueueServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M,
             ScheduledExecutorService threadPool = new ScheduledThreadPoolExecutor(config.getCorePoolSize(), threadFactory);
             threadPool.scheduleAtFixedRate(task, 0L, config.getReqInterval(), TimeUnit.MILLISECONDS);
         }
+    }
+
+    /**
+     * 获取当前DO实体类主键值
+     *
+     * @param tableInfo 表信息实例
+     * @param e         DO实体类
+     * @param <E>       DO实体类类型
+     * @param <R>       主键的类型
+     * @return 主键值
+     */
+    @SuppressWarnings("unchecked")
+    private <E, R extends Serializable> R pkVal(TableInfo tableInfo, E e) {
+        String keyProperty = tableInfo.getKeyProperty();
+        return (R) tableInfo.getPropertyValue(e, keyProperty);
     }
 
     /**

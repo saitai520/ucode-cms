@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2020-2022, Java知识图谱 (http://www.altitude.xin).
+ * Copyright (c) 2020-2023, Java知识图谱 (http://www.altitude.xin).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,20 @@
  *
  */
 
-package xin.altitude.cms.common.support;
+package xin.altitude.cms.plus.support;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import xin.altitude.cms.common.constant.RedisConstants;
 import xin.altitude.cms.common.util.EntityUtils;
-import xin.altitude.cms.common.util.PlusUtils;
 import xin.altitude.cms.common.util.RedisUtils;
+import xin.altitude.cms.plus.util.PlusUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static xin.altitude.cms.common.util.PlusUtils.pkVal;
+import static xin.altitude.cms.plus.util.PlusUtils.pkVal;
 
 /**
  * 增强{@link BaseMapper} 用于实现Redis分布式缓存功能
@@ -38,6 +38,7 @@ import static xin.altitude.cms.common.util.PlusUtils.pkVal;
  * @author <a href="https://gitee.com/decsa/ucode-cms-vue" target="_blank">UCode CMS</a>
  * @author <a href="https://space.bilibili.com/1936685014" target="_blank">B站视频</a>
  **/
+@Deprecated
 public interface CacheBaseMapper<T> extends BaseMapper<T> {
 
     /**

@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2020-2022, Java知识图谱 (http://www.altitude.xin).
+ * Copyright (c) 2020-2023, Java知识图谱 (http://www.altitude.xin).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  *
  */
 
-package xin.altitude.cms.common.support;
+package xin.altitude.cms.plus.support;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;

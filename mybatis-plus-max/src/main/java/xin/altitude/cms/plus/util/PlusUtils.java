@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2020-2022, Java知识图谱 (http://www.altitude.xin).
+ * Copyright (c) 2020-2023, Java知识图谱 (http://www.altitude.xin).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  *
  */
 
-package xin.altitude.cms.common.util;
+package xin.altitude.cms.plus.util;
 
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
@@ -25,6 +25,11 @@ import org.redisson.api.RedissonClient;
 import xin.altitude.cms.common.constant.RedisConstants;
 import xin.altitude.cms.common.entity.JvmLockMeta;
 import xin.altitude.cms.common.entity.LockMeta;
+import xin.altitude.cms.common.util.BooleanUtils;
+import xin.altitude.cms.common.util.ColUtils;
+import xin.altitude.cms.common.util.EntityUtils;
+import xin.altitude.cms.common.util.LockUtils;
+import xin.altitude.cms.common.util.RedisUtils;
 
 import java.io.Serializable;
 import java.util.Collection;

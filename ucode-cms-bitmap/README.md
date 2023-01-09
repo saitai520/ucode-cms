@@ -27,7 +27,7 @@ public BuOrder getOrder(Integer orderId) {
 ##### 3、注解版使用
 注解版提供实现的功能与编码式相同，具体的代码实现不同。
 ```java
-@BitMap(key = OrderServiceImpl.ORDER_BITMAP_KEY, value = "#orderId")
+@BitMap(key = OrderServiceImpl.ORDER_BITMAP_KEY, id = "#orderId")
 public BuOrder getOrder(Integer orderId) {
     return getById(orderId);
 }

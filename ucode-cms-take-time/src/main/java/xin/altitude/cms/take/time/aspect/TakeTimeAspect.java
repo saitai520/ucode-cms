@@ -30,16 +30,16 @@ public class TakeTimeAspect {
      * 带有@TakeTime注解的方法
      */
     @Pointcut("@annotation(xin.altitude.cms.take.time.annotation.TakeTime)")
-    public void time() {
+    public void point() {
 
     }
 
-    @Before("time()")
+    @Before("point()")
     public void doBefore(JoinPoint joinPoint) {
         startTime.set(System.currentTimeMillis());
     }
 
-    @AfterReturning(returning = "ajaxResult", pointcut = "time()")
+    @AfterReturning(returning = "ajaxResult", pointcut = "point()")
     public void doAfterReturning(AjaxResult ajaxResult) {
         long l = System.currentTimeMillis() - startTime.get();
         ajaxResult.put("time", String.format("当前API接口耗时{%s}", calTime(l)));
@@ -50,7 +50,7 @@ public class TakeTimeAspect {
         if (time < 100) {
             return String.format("%s毫秒", time);
         } else {
-            return String.format("%s秒", time*1.0 / 1000);
+            return String.format("%s秒", time * 1.0 / 1000);
         }
     }
 }

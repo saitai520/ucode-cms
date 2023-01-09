@@ -71,6 +71,7 @@
         <module>ucode-cms-word</module>
         <module>ucode-cms-filter-field</module>
         <module>ucode-cms-request-merge</module>
+        <module>mybatis-plus-max</module>
     </modules>
     <packaging>pom</packaging>
 

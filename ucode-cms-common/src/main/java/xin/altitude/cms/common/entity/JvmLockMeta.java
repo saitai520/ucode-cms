@@ -18,8 +18,6 @@
 
 package xin.altitude.cms.common.entity;
 
-import org.redisson.api.RLock;
-
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
@@ -77,7 +75,7 @@ public class JvmLockMeta {
         return lock;
     }
 
-    public void setLock(RLock lock) {
+    public void setLock(Lock lock) {
         this.lock = lock;
     }
 

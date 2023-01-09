@@ -16,7 +16,7 @@
  *
  */
 
-package xin.altitude.cms.common.support;
+package xin.altitude.cms.plus.support;
 
 import xin.altitude.cms.common.constant.RedisConstants;
 
