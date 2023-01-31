@@ -29,18 +29,21 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * {@link RedisQueueUtils}工具类
+ * {@link RedisListUtils}工具类
  *
  * @author <a href="http://www.altitude.xin" target="_blank">Java知识图谱</a>
  * @author <a href="https://gitee.com/decsa/ucode-cms-vue" target="_blank">UCode CMS</a>
  * @author <a href="https://space.bilibili.com/1936685014" target="_blank">B站视频</a>
  * @since 1.6.2
  */
-public class RedisQueueUtils {
-    private static final Logger logger = LoggerFactory.getLogger(RedisQueueUtils.class);
+public class RedisListUtils {
+    private static final Logger logger = LoggerFactory.getLogger(RedisListUtils.class);
     private static final StringRedisTemplate STRING_REDIS_TEMPLATE = SpringUtils.getBean(StringRedisTemplate.class);
 
     private static final IQueue<String> QUEUE = new RedisQueue<>(STRING_REDIS_TEMPLATE.opsForList());
+
+    private RedisListUtils() {
+    }
 
     /**
      * 向队列中添加单个元素
@@ -49,12 +52,12 @@ public class RedisQueueUtils {
      * @param e   元素
      * @return 添加成功返回 <code>true</code>
      */
-    public static <T> boolean add(String key, T e) {
+    public static <T> boolean push(String key, T e) {
         if (e instanceof String) {
-            return QUEUE.add(key, (String) e);
+            return QUEUE.push(key, (String) e);
         } else {
             String value = JacksonUtils.writeValueAsString(e);
-            return QUEUE.add(key, value);
+            return QUEUE.push(key, value);
         }
     }
 
@@ -64,13 +67,13 @@ public class RedisQueueUtils {
      * @param key    Key键
      * @param values 元素集合
      */
-    public static <T> boolean addAll(String key, Collection<T> values) {
+    public static <T> boolean pushAll(String key, Collection<T> values) {
         if (ColUtils.toObj(values) instanceof String) {
             List<String> newValue = EntityUtils.toList(values, e -> (String) e);
-            return QUEUE.addAll(key, newValue);
+            return QUEUE.pushAll(key, newValue);
         } else {
             List<String> newValue = EntityUtils.toList(values, JacksonUtils::writeValueAsString);
-            return QUEUE.addAll(key, newValue);
+            return QUEUE.pushAll(key, newValue);
         }
     }
 
@@ -80,8 +83,8 @@ public class RedisQueueUtils {
      * @param key Key键
      * @return 元素
      */
-    public static String remove(String key) {
-        return QUEUE.remove(key);
+    public static String pop(String key) {
+        return QUEUE.pop(key);
     }
 
     /**
@@ -90,8 +93,8 @@ public class RedisQueueUtils {
      * @param key Key键
      * @return 元素
      */
-    public static <T> T remove(String key, Class<T> clazz) {
-        String value = QUEUE.remove(key);
+    public static <T> T pop(String key, Class<T> clazz) {
+        String value = QUEUE.pop(key);
         return JacksonUtils.readObjectValue(value, clazz);
     }
 
@@ -100,8 +103,8 @@ public class RedisQueueUtils {
      *
      * @return 元素
      */
-    public static List<String> remove(String key, long count) {
-        return QUEUE.remove(key, count);
+    public static List<String> pop(String key, long count) {
+        return QUEUE.pop(key, count);
     }
 
     /**
@@ -109,8 +112,8 @@ public class RedisQueueUtils {
      *
      * @return 元素
      */
-    public static <T> List<T> remove(String key, long count, Class<T> clazz) {
-        List<String> values = QUEUE.remove(key, count);
+    public static <T> List<T> pop(String key, long count, Class<T> clazz) {
+        List<String> values = QUEUE.pop(key, count);
         return EntityUtils.toList(values, e -> JacksonUtils.readObjectValue(e, clazz));
     }
 
@@ -119,8 +122,17 @@ public class RedisQueueUtils {
      *
      * @return 元素
      */
-    public static String remove(String key, long timeout, TimeUnit unit) {
-        return QUEUE.remove(key, timeout, unit);
+    public static String bPop(String key, long timeout, TimeUnit unit) {
+        return QUEUE.bPop(key, timeout, unit);
+    }
+
+    /**
+     * 阻塞从队列中取出队首元素
+     *
+     * @return 元素
+     */
+    public static <T> T bPop(String key, long timeout, TimeUnit unit, Class<T> clazz) {
+        return JacksonUtils.readObjectValue(QUEUE.bPop(key, timeout, unit), clazz);
     }
 
     /**

@@ -5,12 +5,12 @@
     <parent>
         <groupId>xin.altitude.cms</groupId>
         <artifactId>ucode-cms</artifactId>
-        <version>1.6.2.2</version>
+        <version>1.6.2.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <!--<groupId>xin.altitude.cms</groupId>-->
     <artifactId>ucode-cms-framework</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
     <name>${project.artifactId}</name>
     <url>http://www.altitude.xin</url>
     <description>

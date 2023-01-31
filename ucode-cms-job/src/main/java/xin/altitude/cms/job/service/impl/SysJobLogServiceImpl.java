@@ -99,7 +99,7 @@ public class SysJobLogServiceImpl extends ServiceImpl<SysJobLogMapper, SysJobLog
         /* 通过循环清空表（防止非人为意外清空表） */
         do {
             remove(Wrappers.lambdaQuery(SysJobLog.class).gt(SysJobLog::getJobLogId, 0).last("limit 100"));
-            // remove(Wrappers.lambdaQuery(SysJobLog.class).last("limit 100"));
+            // pop(Wrappers.lambdaQuery(SysJobLog.class).last("limit 100"));
         } while (count() > 0);
     }
 }

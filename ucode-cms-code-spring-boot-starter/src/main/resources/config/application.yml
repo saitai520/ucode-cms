@@ -19,7 +19,7 @@
 #      dateSerialize: false
 #      dateFormat: true
 #    xml:
-#      add-xml: false
+#      push-xml: false
 
 
 # 日志配置

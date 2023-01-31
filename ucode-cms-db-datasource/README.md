@@ -6,7 +6,7 @@
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-db-datasource</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 ##### 2、单数据源配置

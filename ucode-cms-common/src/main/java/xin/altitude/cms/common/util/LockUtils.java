@@ -59,7 +59,7 @@ public class LockUtils {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
-            Optional.of(lock).ifPresent(RLock::unlock);
+            Optional.of(lock).ifPresent(Lock::unlock);
         }
     }
 

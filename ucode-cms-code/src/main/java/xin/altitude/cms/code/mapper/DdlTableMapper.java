@@ -35,7 +35,7 @@ public interface DdlTableMapper {
      *
      * @param tableName 表名
      */
-    @Update("alter table ${tableName} add column ${columnName} datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间';")
+    @Update("alter table ${tableName} push column ${columnName} datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间';")
     void addCreateTime(@Param("tableName") String tableName, @Param("columnName") String columnName);
 
     /**
@@ -51,7 +51,7 @@ public interface DdlTableMapper {
      *
      * @param tableName 表名
      */
-    @Update("alter table ${tableName} add column ${columnName} datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';")
+    @Update("alter table ${tableName} push column ${columnName} datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';")
     void addUpdateTime(@Param("tableName") String tableName, @Param("columnName") String columnName);
 
     /**
@@ -67,7 +67,7 @@ public interface DdlTableMapper {
      *
      * @param tableName 表名
      */
-    @Update("alter table ${tableName} add column ${columnName} int(11) DEFAULT 0 COMMENT '逻辑删除';")
+    @Update("alter table ${tableName} push column ${columnName} int(11) DEFAULT 0 COMMENT '逻辑删除';")
     void addLogicalDelete(@Param("tableName") String tableName, @Param("columnName") String columnName);
 
     /**

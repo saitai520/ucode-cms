@@ -21,7 +21,7 @@ public class ${ClassName}Controller
     }
 
 #if($!pkColumn.fieldName)
-    @PostMapping("/add")
+    @PostMapping("/push")
     public AjaxResult add(@RequestBody ${ClassName} ${t.sc($ClassName)}) {
         return AjaxResult.success(${t.sc($ClassName)}Service.save(${t.sc($ClassName)}));
     }

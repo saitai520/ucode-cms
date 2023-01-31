@@ -46,31 +46,28 @@ public class BitMapAspect {
     private static final Logger logger = LoggerFactory.getLogger(BitMapAspect.class);
 
     @Pointcut("@annotation(xin.altitude.cms.bitmap.annotation.BitMap)")
-    public void cacheAspect() {
+    public void aspect() {
 
     }
 
-    @Around("cacheAspect()")
+    @Around("aspect()")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
 
         BitMap annotation = method.getAnnotation(BitMap.class);
         TreeMap<String, Object> map = ParserUtils.createTreeMap(point, signature);
-        String elResult = ParserUtils.parse(annotation.id(), map);
-        if (elResult != null) {
-            long id = Long.parseLong(elResult);
-            boolean exist = RedisBitMapUtils.checkId(annotation.key(), id);
-            if (!exist) {
-                logger.info(String.format("当前主键{%d}不存在，直接响应用户请求", id));
-                if (method.getReturnType().equals(AjaxResult.class)) {
-                    return AjaxResult.success();
-                }
-            } else {
+        String idString = ParserUtils.parse(annotation.id(), map);
+        if (idString != null) {
+            long id = Long.parseLong(idString);
+            if (RedisBitMapUtils.isPresent(annotation.key(), id)) {
                 return point.proceed();
+            } else {
+                logger.info(String.format("当前主键ID{%d}不存在", id));
+                return method.getReturnType().equals(AjaxResult.class) ? AjaxResult.success() : null;
             }
         }
-        return AjaxResult.success();
+        throw new RuntimeException("主键ID解析不正确，请按照参考格式书写");
     }
 
 }

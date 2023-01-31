@@ -1,4 +1,4 @@
-package xin.altitude.cms.common.util;
+package xin.altitude.cms.plus.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;

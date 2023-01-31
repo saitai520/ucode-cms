@@ -1,5 +1,7 @@
 ### 一、模块简介
 
+视频教程[MybatisPlus代码生成器](https://www.bilibili.com/video/BV12Y4y1W7oc)
+
 ##### 1、功能亮点
 
 实时读取库表结构元数据信息，比如表名、字段名、字段类型、注释等，选中修改后的表，点击`一键生成`，代码成即可提现出表结构的变化。
@@ -9,8 +11,6 @@
 多表连接查询。多表连接查询默认不开启，需要在全局文件中手动配置。
 
 开启多表连接查询后，代码生成器会自动读取数据库元数据信息中的`主外键关系`，分别生成`一对一`、`一对多`、`多对多`风格的源代码。
-
-生成的代码接口可通过Swagger暴露。
 
 ##### 2、运行依赖服务
 
@@ -55,21 +55,22 @@ spring:
 
 ##### 2、添加依赖
 
-检查pom文件中是否包含代码生成器Maven包依赖，如果没有，则添加如下依赖
+检查pom文件中是否包含代码生成器Maven包依赖，如果没有，则添加如下依赖。如果使用阿里云Maven镜像，可能同步不及时，适当降低版本号即可。
 
 ```xml
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-code-spring-boot-starter</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 
+完成上述两步配置后，启动项目，查看控制台日志，点击链接进入`可视化控制台`界面。形如：
+```text
+========点击(http://localhost:8080/#/gen)进入代码生成器控制台========
+```
+其中端口是通过自动读取配置计算出来的。
 ##### 3、可视化界面
-
-配置完上述连接后，启动项目。访问`http://localhost:8080`进入控制台界面。
-
-![WX20220612-190409@2x4444A](https://www.altitude.xin/typora/WX20220612-190409@2x4444A.png)
 
 点击免登录进入代码生成器，进入管理界面。
 
@@ -92,7 +93,7 @@ spring:
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-code-spring-boot-starter</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 如果使用代码生成器功能，则代码本地化生成依赖为必选项。
@@ -140,7 +141,10 @@ spring:
 | `ucode.code.xml.addXml`        | `false`              | 虽然说不建议使用XML文件编写SQL，但仍提高可开启开关 |
 | `ucode.code.mapper.useCache`   | `true`               | 默认开启二级缓存，自定义业务缓存可关闭             |
 
+注意，如果配置xml文件不生效，请确保版本号不低于`1.6.2`。
+
 ### 四、常见问题
+
 ##### 1、找不到依赖？
 找不到依赖很大可能是因为阿里云景象仓库尚未同步完成Jar包，在项目中`pom`文件添加如下配置：
 ```xml
@@ -163,7 +167,7 @@ spring:
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-code-spring-boot-starter</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 
@@ -177,4 +181,5 @@ spring:
 
 ---
 > 如有疑问，可通过微信`dream4s`与作者联系。源码在[GitHub](https://gitee.com/decsa) ，视频讲解在[B站](https://space.bilibili.com/1936685014) ，本文收藏在[博客天地](http://www.altitude.xin) 。
+
 ---

@@ -45,4 +45,5 @@ nbdist/
 /ucode-cms-ui/src/main/resources/
 
 /cms-ui/
-/demo-ucode-cms/
+/ucode-cms-multi-db-datasource/
+/a-demo-cms/

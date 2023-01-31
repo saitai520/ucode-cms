@@ -20,11 +20,10 @@ package xin.altitude.cms.quartz.util;
 
 import lombok.SneakyThrows;
 import org.quartz.*;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import xin.altitude.cms.common.util.SpringUtils;
 import xin.altitude.cms.quartz.annotation.CronExp;
 import xin.altitude.cms.quartz.constant.ScheduleConstants;
-import xin.altitude.cms.quartz.model.JobModel;
+import xin.altitude.cms.quartz.model.CmsJobBean;
 
 /**
  * 定时任务工具类
@@ -49,11 +48,11 @@ public class QuartzUtils {
      * 创建定时任务
      *
      * @param scheduler 任务调度器
-     * @param jobModel  任务模型
+     * @param cmsJobBean  任务模型
      */
     @SneakyThrows
-    public static void createScheduleJob(Scheduler scheduler, JobModel jobModel) {
-        createScheduleJob(scheduler, jobModel.getJobId(), jobModel.getJobClass(), jobModel.getCron());
+    public static void createScheduleJob(Scheduler scheduler, CmsJobBean cmsJobBean) {
+        createScheduleJob(scheduler, cmsJobBean.getJobId(), cmsJobBean.getJobClass(), cmsJobBean.getCron());
     }
 
     public static void createScheduleJob(Scheduler scheduler, Class<? extends Job> jobClass) {

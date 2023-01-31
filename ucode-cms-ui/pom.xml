@@ -6,11 +6,11 @@
     <parent>
         <artifactId>ucode-cms</artifactId>
         <groupId>xin.altitude.cms</groupId>
-        <version>1.6.2.2</version>
+        <version>1.6.2.5</version>
     </parent>
     <!--<groupId>xin.altitude.cms.ui</groupId>-->
     <artifactId>ucode-cms-ui</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
     <name>${project.artifactId}</name>
     <url>http://www.altitude.xin</url>
     <description>

@@ -46,7 +46,10 @@ public @interface CronExp {
     long id() default 0;
 
     /**
-     * cron表达式字符串
+     * cron表达式字符串 使用示例
+     * <pre>
+     *     0/5 * * * * ?  每5秒执行一次
+     * </pre>
      */
     String cron();
 }

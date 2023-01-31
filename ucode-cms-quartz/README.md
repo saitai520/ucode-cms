@@ -10,7 +10,7 @@
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-quartz</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 
@@ -18,9 +18,12 @@
 
 实现`org.quartz.Job`接口；使用注解`CronExp`添加任务的调度策略；使用注解`Component`将任务注入容器中。
 
-启动项目，定时任务便处于监听与运行中。
+启动项目，定时任务便处于监听与运行中。如果对定时任务表达式不理解，可在线搜索生成。
 
 ```java
+/**
+ * 没5秒执行一次
+ */
 @Component
 @DisallowConcurrentExecution
 @CronExp(cron = "0/5 * * * * ?")

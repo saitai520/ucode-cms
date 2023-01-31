@@ -31,8 +31,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
  * @author <a href="https://gitee.com/decsa/ucode-cms-vue" target="_blank">UCode CMS</a>
  * @author <a href="https://space.bilibili.com/1936685014" target="_blank">B站视频</a>
  */
-// @ConditionalOnProperty(value = "ucode.cms.authEnabled", havingValue = "true", matchIfMissing = true)
-@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE+1)
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 1)
 @ConditionalOnMissingBean(value = xin.altitude.cms.security.config.AbstractSecurityConfig.class)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class DefaultSecurityConfig extends AbstractSecurityConfig {

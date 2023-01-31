@@ -40,7 +40,7 @@ public class Singleton {
     }
 
     /**
-     * 使用双重检查·单例模式为每个Service服务类创建一个表锁
+     * 使用双重检查·单例模式为每个实体类创建一个表锁
      *
      * @param entityClass 实体类Class对象
      * @return 本地锁实例
@@ -51,7 +51,7 @@ public class Singleton {
     }
 
     /**
-     * 使用双重检查·单例模式为每个Service服务类创建一个表锁
+     * 使用双重检查·单例模式为每个实体类创建一个表锁
      *
      * @param className 实体类名称
      * @return 本地锁实例

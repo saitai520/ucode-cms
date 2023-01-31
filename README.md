@@ -7,7 +7,7 @@
 ##### 1、当前版本
 Maven仓库访问[地址](https://mvnrepository.com/search?q=xin.altitude.cms)
 ```xml
-<version>1.6.2.2</version>
+<version>1.6.2.5</version>
 ```
 > 学习代码的朋友，记得给[UCode CMS](https://gitee.com/decsa/ucode-cms-vue) 来个star吧
 ##### 2、使用说明
@@ -51,7 +51,7 @@ git clone https://gitee.com/decsa/ucode-cms-vue.git
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-spring-boot-starter</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 
@@ -122,7 +122,7 @@ UCode Cms源码项目结构如下
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-common</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 ##### 1、请求合并
@@ -160,7 +160,7 @@ protected RequstConfig createRequstConfig() {
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-code-spring-boot-starter</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 #### （三）分布式BitMap
@@ -176,7 +176,7 @@ public BuOrder getOrder2(Integer orderId) {
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-bitmap</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 #### （四）分布式限流
@@ -191,7 +191,7 @@ public BuOrder getOrder2(Integer orderId) {
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-limiter</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 #### （五）防重复提交
@@ -200,7 +200,7 @@ public BuOrder getOrder2(Integer orderId) {
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-repeat</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 在一些场合，同一接口、同一参数避免脏数据入库，通常需要防重复提交。比如统计页面浏览量，超过3分钟浏览一次页面增加一次浏览量等。
@@ -215,7 +215,7 @@ public BuOrder getOrder2(Integer orderId) {
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-log</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 在一些场合需要记录接口的操作日志信息，比如增加数据、修改数据、删除数据，需要用到日志系统
@@ -230,7 +230,7 @@ public BuOrder getOrder2(Integer orderId) {
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-take-time</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 对于想统计接口的响应时间，添加上述依赖，并在控制器方法添加`@TakeTime`注解。
@@ -241,7 +241,7 @@ public BuOrder getOrder2(Integer orderId) {
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-db-datasource</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 引入上述依赖，你的项目便有魔法助力，快速拥有多数据源的能力。 使用相当简单：
@@ -278,7 +278,7 @@ spring:
 <dependency>
     <groupId>xin.altitude.cms</groupId>
     <artifactId>ucode-cms-quartz</artifactId>
-    <version>1.6.2.2</version>
+    <version>1.6.2.5</version>
 </dependency>
 ```
 
@@ -339,7 +339,7 @@ http://localhost:8080
     <dependency>
         <groupId>xin.altitude.cms</groupId>
         <artifactId>ucode-cms-spring-boot-starter</artifactId>
-        <version>1.6.2.2</version>
+        <version>1.6.2.5</version>
     </dependency>
 </dependencies>
 ```

@@ -99,7 +99,7 @@ public class ServiceImplServiceImpl extends CommonServiceImpl implements IServic
         rs.add("import org.springframework.stereotype.Service;");
         if (config.getUseMybatisPlus()) {
             rs.add("import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;");
-            // rs.add(String.format("import %s.domain.%s;", configEntity.getPackageName(), CodeUtils.getClassName(tableName, configEntity)));
+            // rs.push(String.format("import %s.domain.%s;", configEntity.getPackageName(), CodeUtils.getClassName(tableName, configEntity)));
             rs.add(String.format("import %s.domain.%s;", config.getPackageName(), CodeUtils.getClassName(tableName)));
             rs.add(String.format("import %s.mapper.%sMapper;", config.getPackageName(), CodeUtils.getClassName(tableName)));
             rs.add(String.format("import %s.service.I%sService;", config.getPackageName(), CodeUtils.getClassName(tableName)));

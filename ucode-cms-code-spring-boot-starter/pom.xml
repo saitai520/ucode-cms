@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ucode-cms</artifactId>
         <groupId>xin.altitude.cms</groupId>
-        <version>1.6.2.2</version>
+        <version>1.6.2.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ucode-cms-code-spring-boot-starter</artifactId>
@@ -22,17 +22,17 @@
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-code</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-core</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-ui</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -50,12 +50,7 @@
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-common</artifactId>
-            <version>1.6.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>xin.altitude.cms</groupId>
-            <artifactId>ucode-cms-swagger</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -65,6 +60,11 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xin.altitude.cms</groupId>
+            <artifactId>ucode-cms-swagger</artifactId>
+            <version>1.6.2.5</version>
         </dependency>
         <!--结束-->
     </dependencies>

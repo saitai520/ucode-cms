@@ -165,7 +165,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
             }
             removeById(configId);
             // configMapper.deleteConfigById(configId);
-            // redisCache.remove(getCacheKey(config.getConfigKey()));
+            // redisCache.pop(getCacheKey(config.getConfigKey()));
         }
     }
 
@@ -187,7 +187,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     @Override
     public void clearConfigCache() {
         // Collection<String> keys = redisCache.keys(Constants.SYS_CONFIG_KEY + "*");
-        // redisCache.remove(keys);
+        // redisCache.pop(keys);
     }
 
     /**

@@ -36,7 +36,7 @@ public interface IQueue<E> {
      * @param e   元素
      * @return 添加成功返回 <code>true</code>
      */
-    boolean add(String key, E e);
+    boolean push(String key, E e);
 
     /**
      * 批量向队列中添加元素
@@ -45,7 +45,7 @@ public interface IQueue<E> {
      * @param values 元素集合
      * @return
      */
-    boolean addAll(String key, Collection<E> values);
+    boolean pushAll(String key, Collection<E> values);
 
     /**
      * 从队列中取出队首元素
@@ -53,21 +53,21 @@ public interface IQueue<E> {
      * @param key Key键
      * @return 元素
      */
-    E remove(String key);
+    E pop(String key);
 
     /**
      * 从队列中取出<code>count</code>个队首元素(最多)
      *
      * @return 元素
      */
-    List<E> remove(String key, long count);
+    List<E> pop(String key, long count);
 
     /**
      * 阻塞从队列中取出队首元素
      *
      * @return 元素
      */
-    E remove(String key, long timeout, TimeUnit unit);
+    E bPop(String key, long timeout, TimeUnit unit);
 
     /**
      * 清空队列

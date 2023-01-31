@@ -16,29 +16,35 @@
  *
  */
 
-package xin.altitude.cms.quartz.model;
+package xin.altitude.cms.db.multi.datasource.core;
 
-import lombok.Data;
-import org.quartz.Job;
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
+import javax.sql.DataSource;
+import java.util.Map;
 
 /**
+ * 动态数据源
+ *
  * @author <a href="http://www.altitude.xin" target="_blank">Java知识图谱</a>
  * @author <a href="https://gitee.com/decsa/ucode-cms-vue" target="_blank">UCode CMS</a>
  * @author <a href="https://space.bilibili.com/1936685014" target="_blank">B站视频</a>
- * @since 2021/03/30 22:09
- **/
-@Data
-public class JobModel {
+ */
+public class DynamicDataSource extends AbstractRoutingDataSource {
+
     /**
-     * 任务ID，用作唯一标识
+     * 构造器
      */
-    private Long jobId;
-    /**
-     * 任务的类名全称
-     */
-    private Class<? extends Job> jobClass;
-    /**
-     * 任务的调度表达式
-     */
-    private String cron;
+    public DynamicDataSource(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
+        // 设置默认数据源（主数据源必须存在）
+        super.setDefaultTargetDataSource(defaultTargetDataSource);
+        // 设置备用数据源（备用数据源允许没有）
+        super.setTargetDataSources(targetDataSources);
+        super.afterPropertiesSet();
+    }
+
+    @Override
+    protected String determineCurrentLookupKey() {
+        return DataSourceContextHolder.getDsName();
+    }
 }

@@ -43,19 +43,11 @@ public class ColUtils {
     }
 
     public static <E> boolean isEmpty(Collection<E> data) {
-        if (data == null) {
-            return true;
-        } else {
-            return data.size() == 0;
-        }
+        return data == null || (data.size() == 0);
     }
 
     public static <E> boolean isEmpty(E[] data) {
-        if (data == null) {
-            return true;
-        } else {
-            return data.length == 0;
-        }
+        return data == null || (data.length == 0);
     }
 
     public static <E> boolean isNotEmpty(Collection<E> data) {

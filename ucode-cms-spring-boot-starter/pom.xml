@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ucode-cms</artifactId>
         <groupId>xin.altitude.cms</groupId>
-        <version>1.6.2.2</version>
+        <version>1.6.2.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>${project.artifactId}</name>
@@ -26,44 +26,44 @@
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-framework</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-common</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-system</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-ui</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-monitor</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-excel</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
 
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-security</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
 
         <dependency>
             <groupId>xin.altitude.cms</groupId>
             <artifactId>ucode-cms-swagger</artifactId>
-            <version>1.6.2.2</version>
+            <version>1.6.2.5</version>
         </dependency>
 
         <dependency>

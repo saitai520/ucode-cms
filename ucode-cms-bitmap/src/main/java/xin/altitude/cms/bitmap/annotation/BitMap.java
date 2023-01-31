@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
 /**
  * 此注解可作用于控制器方法，或者服务类方法
  *
- * 使用示例
+ * 使用示例，在目标方法上添加如下注解
  * <pre>
  *     BitMap(key = "user", id = "#id")
  * </pre>
@@ -49,7 +49,8 @@ public @interface BitMap {
     String key();
 
     /**
-     * 支持{@code SPEL}表达式 含义是以被调用方法参数<code>id</code>的值作为主键ID
+     * 支持{@code SPEL}表达式
+     * 含义是以被调用方法参数<code>id</code>的值作为主键ID
      */
     String id() default "#id";
 }

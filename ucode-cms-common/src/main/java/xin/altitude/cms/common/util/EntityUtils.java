@@ -80,6 +80,30 @@ public class EntityUtils {
 
     /**
      * 将实体类对象从{@code T}类型转化为{@code R}类型
+     * <pre>
+     * public class Subject{
+     *     private Integer subId;
+     *     private String subName;
+     *
+     *     public Subject(Subject subject) {
+     *         if (Objects.nonNull(subject)) {
+     *             this.subId=subject.subId;
+     *             this.subName=subject.subName;
+     *         }
+     *     }
+     * }
+     * public class SubjectBo extends Subject {
+     *     private Integer score;
+     *
+     *     public SubjectBo(Subject subject) {
+     *         super(subject);
+     *     }
+     * }
+     * </pre>
+     * 使用示例实现实体类Subject转换为SubjectBo
+     * <pre>
+     *     SubjectBo subjectBo = EntityUtils.toObj(subject, SubjectBo::new);
+     * </pre>
      *
      * @param <T>    源数据类型
      * @param <R>    变换后数据类型
@@ -141,7 +165,34 @@ public class EntityUtils {
         if (Objects.nonNull(list)) {
             return list.stream().map(action).collect(Collectors.toList());
         }
-        return new ArrayList<>();
+        return Collections.emptyList();
+    }
+
+    /**
+     * <p>将数组转化为集合</p>
+     * 示例：不转换实体类类型
+     *
+     * @param arrays 数组实例
+     * @param <T>    原始实体类类型
+     * @return 以<code>R</code>为元素的集合实例
+     */
+    public static <T> List<T> toList(final T[] arrays) {
+        return new ArrayList<>(Arrays.asList(arrays));
+    }
+
+    /**
+     * <p>将数组转化为集合</p>
+     * 示例一：不转换实体类类型
+     * 示例二：转换实体类类型
+     *
+     * @param arrays 数组实例
+     * @param action 值为{@code Function.identity()}不转变实体类类型
+     * @param <T>    原始实体类类型
+     * @param <R>    目标实体类类型
+     * @return 以<code>R</code>为元素的集合实例
+     */
+    public static <T, R> List<R> toList(final T[] arrays, final Function<? super T, ? extends R> action) {
+        return toList(Arrays.asList(arrays), action);
     }
 
     /**
@@ -159,7 +210,7 @@ public class EntityUtils {
         if (Objects.nonNull(list)) {
             return list.stream().map(action).filter(pred).collect(Collectors.toList());
         }
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     /**
@@ -173,12 +224,14 @@ public class EntityUtils {
      * @return 以元素{@code VO}为类型的集合实例 如果获取不到指定类型的构造器或者发生异常 则返回空集合
      */
     public static <T, VO> List<VO> toList(final Collection<T> list, Class<VO> voClazz) {
-        if (list != null && list.size() > 0) {
+        if (ColUtils.isNotEmpty(list)) {
             T obj = ColUtils.toObj(list);
-            Constructor<VO> constructor = RefUtils.getConstructor(voClazz, obj.getClass());
-            return toList(list, e -> RefUtils.newInstance(constructor, e));
+            if (obj != null) {
+                Constructor<VO> constructor = RefUtils.getConstructor(voClazz, obj.getClass());
+                return toList(list, e -> RefUtils.newInstance(constructor, e));
+            }
         }
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     /**
@@ -200,6 +253,24 @@ public class EntityUtils {
             return list.stream().collect(collector);
         }
         return null;
+    }
+
+    /**
+     * 将集合{@code List<T>}实例按照参数<code>action</code>映射关系转换后 生成{@code G[]}数组
+     *
+     * <pre>
+     *     String[] userNames = EntityUtils.toArray(userList, User::getUserName)
+     * </pre>
+     *
+     * @param list   数组实例 不允许为<code>null</code>
+     * @param action 映射关系 不允许为<code>null</code>
+     * @param <T>    集合元素的类型
+     * @param <R>    转换后数组的类型
+     * @return {@code R[]}数组实例
+     */
+    public static <T, R> R[] toArray(final T[] list, final Function<? super T, ? extends R> action) {
+        Objects.requireNonNull(list);
+        return toArray(Arrays.asList(list), action);
     }
 
 
@@ -224,24 +295,6 @@ public class EntityUtils {
             return list.stream().map(action).collect(collector);
         }
         return null;
-    }
-
-    /**
-     * 将集合{@code List<T>}实例按照参数<code>action</code>映射关系转换后 生成{@code G[]}数组
-     *
-     * <pre>
-     *     String[] userNames = EntityUtils.toArray(userList, User::getUserName)
-     * </pre>
-     *
-     * @param list   数组实例 不允许为<code>null</code>
-     * @param action 映射关系 不允许为<code>null</code>
-     * @param <T>    集合元素的类型
-     * @param <R>    转换后数组的类型
-     * @return {@code G[]}数组实例
-     */
-    public static <T, R> R[] toArray(final T[] list, final Function<? super T, ? extends R> action) {
-        Objects.requireNonNull(list);
-        return toArray(Arrays.asList(list), action);
     }
 
 
@@ -319,7 +372,7 @@ public class EntityUtils {
     public static <T> Map<String, Object> toMap(final T obj) {
         Objects.requireNonNull(obj);
         List<Field> fieldList = ReflectionKit.getFieldList(obj.getClass());
-        HashMap<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         fieldList.forEach(e -> map.put(e.getName(), RefUtils.getFieldValue(obj, e)));
         return map;
     }
@@ -336,7 +389,7 @@ public class EntityUtils {
         Objects.requireNonNull(obj);
         Objects.requireNonNull(pred);
         List<Field> fieldList = ReflectionKit.getFieldList(obj.getClass()).stream().filter(pred).collect(Collectors.toList());
-        HashMap<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         fieldList.forEach(e -> map.put(e.getName(), RefUtils.getFieldValue(obj, e)));
         return map;
     }

@@ -22,7 +22,6 @@ package xin.altitude.cms.common.util;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -47,7 +46,7 @@ public class TableUtils {
      * @param <V>   value泛型
      * @return Table实例
      */
-    public static <R, C, V> Table<R, C, V> createHashTable(List<Table.Cell<R, C, V>> cells) {
+    public static <R, C, V> Table<R, C, V> createHashTable(Iterable<? extends Table.Cell<R, C, V>> cells) {
         Objects.requireNonNull(cells);
         Table<R, C, V> table = HashBasedTable.create();
         cells.forEach(e -> table.put(e.getRowKey(), e.getColumnKey(), e.getValue()));
@@ -90,6 +89,6 @@ public class TableUtils {
      * @return Table实例
      */
     public static <R, C, T> Table<R, C, T> createHashTable(Iterable<T> source, Function<? super T, ? extends R> r, Function<? super T, ? extends C> c) {
-        return createHashTable(source, r, c, e -> e);
+        return createHashTable(source, r, c, Function.identity());
     }
 }

@@ -166,7 +166,7 @@ public final class Base64 {
         }
 
         char[] base64Data = encoded.toCharArray();
-        // remove white spaces
+        // pop white spaces
         int len = removeWhiteSpace(base64Data);
 
         if (len % FOURBYTE != 0) {
@@ -250,7 +250,7 @@ public final class Base64 {
     }
 
     /**
-     * remove WhiteSpace from MIME containing encoded Base64 data.
+     * pop WhiteSpace from MIME containing encoded Base64 data.
      *
      * @param data the byte array of base64 data (with WS)
      * @return the new length

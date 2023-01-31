@@ -24,7 +24,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import xin.altitude.cms.common.util.SpringUtils;
 import xin.altitude.cms.quartz.constant.ScheduleConstants;
-import xin.altitude.cms.quartz.model.JobModel;
+import xin.altitude.cms.quartz.model.CmsJobBean;
 import xin.altitude.cms.quartz.service.IQuartzJobService;
 import xin.altitude.cms.quartz.util.CronUtils;
 import xin.altitude.cms.quartz.util.QuartzUtils;
@@ -57,7 +57,7 @@ public class QuartzJobServiceImpl implements IQuartzJobService {
      *
      * @param job 调度信息
      */
-    public void pauseJob(JobModel job) throws SchedulerException {
+    public void pauseJob(CmsJobBean job) throws SchedulerException {
         Long jobId = job.getJobId();
         scheduler.pauseJob(QuartzUtils.createJobKey(jobId));
     }
@@ -67,7 +67,7 @@ public class QuartzJobServiceImpl implements IQuartzJobService {
      *
      * @param job 调度信息
      */
-    public void resumeJob(JobModel job) throws SchedulerException {
+    public void resumeJob(CmsJobBean job) throws SchedulerException {
         Long jobId = job.getJobId();
         scheduler.resumeJob(QuartzUtils.createJobKey(jobId));
     }
@@ -77,7 +77,7 @@ public class QuartzJobServiceImpl implements IQuartzJobService {
      *
      * @param job 调度信息
      */
-    public void deleteJob(JobModel job) throws SchedulerException {
+    public void deleteJob(CmsJobBean job) throws SchedulerException {
         Long jobId = job.getJobId();
         scheduler.deleteJob(QuartzUtils.createJobKey(jobId));
     }
@@ -87,7 +87,7 @@ public class QuartzJobServiceImpl implements IQuartzJobService {
      *
      * @param job 调度信息
      */
-    public void run(JobModel job) {
+    public void run(CmsJobBean job) {
         Long jobId = job.getJobId();
         // 参数
         JobDataMap dataMap = new JobDataMap();
@@ -131,7 +131,7 @@ public class QuartzJobServiceImpl implements IQuartzJobService {
      *
      * @param job 调度信息 调度信息
      */
-    public void insertJob(JobModel job) {
+    public void insertJob(CmsJobBean job) {
         QuartzUtils.createScheduleJob(scheduler, job);
     }
 

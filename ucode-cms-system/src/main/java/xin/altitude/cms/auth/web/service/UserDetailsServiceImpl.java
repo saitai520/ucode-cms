@@ -31,6 +31,8 @@ import xin.altitude.cms.security.model.LoginUser;
 import xin.altitude.cms.security.service.IUserDetailsService;
 import xin.altitude.cms.system.service.ISysUserService;
 
+import java.util.Set;
+
 /**
  * 用户验证处理
  *
@@ -47,9 +49,17 @@ public class UserDetailsServiceImpl extends IUserDetailsService {
     @Autowired
     private SysPermissionService permissionService;
 
+    /**
+     * 通过用户名来认证、此时没有考虑到密码
+     *
+     * @param username 用户名
+     * @return {@link UserDetails} 实例
+     * @throws UsernameNotFoundException
+     */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         SysUser user = userService.selectUserByUserName(username);
+
         if (StringUtil.isNull(user)) {
             log.info("登录用户：{} 不存在.", username);
             throw new ServiceException("登录用户：" + username + " 不存在");
@@ -64,6 +74,7 @@ public class UserDetailsServiceImpl extends IUserDetailsService {
     }
 
     public UserDetails createLoginUser(SysUser user) {
-        return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+        Set<String> permissionSets = permissionService.getMenuPermission(user);
+        return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionSets);
     }
 }
